@@ -175,7 +175,7 @@ PROC LibFunc[] = {
   {"dfs_rename_file", "long dfs_unlink_file(PVOLINFO volinfo, char *path, char *newname, uint8_t *scratch_sector);\n", dfs_rename_file},
 	};
 
-LDGLIB LibLdg[] = { { 0x0001,	19, LibFunc, "jacknifed dosfs to access floppy disk images.", 1} };
+LDGLIB LibLdg[] = { { 0x0002,	19, LibFunc, "jacknifed dosfs to access floppy disk images.", 1} };
 
 /*  */
 
