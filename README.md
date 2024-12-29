@@ -15,6 +15,6 @@ Other programs can use it, please read KKcmd GFA sources (dfs_ functions) as exe
    ```mkdir ./build/68020```  
    ```mkdir ./build/ColdFire```  
 
-- get [dosfs_r1_src.zip](https://ptonthat.fr/files/dosfs/dosfs_r1_src.zip) and unpack the contents to ./
+- get [dosfs_r2_src.zip](https://ptonthat.fr/files/dosfs/dosfs_r2_src.zip) and unpack the contents to ./
 
 - dosfs.ldg.xcodeproj is for Xcode 16.0, you may not need it if you use something else.
