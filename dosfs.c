@@ -421,7 +421,7 @@ uint32_t DFS_GetFreeFAT(PVOLINFO volinfo, uint8_t *scratch)
 	considered to be the root directory.
 	Returns 0 OK, nonzero for any error.
 */
-uint32_t DFS_OpenDir(PVOLINFO volinfo, uint8_t *dirname, PDIRINFO dirinfo)
+uint32_t DFS_OpenDir(PVOLINFO volinfo, uint8_t *dirname, PDIRINFO dirinfo, uint8_t volflag)
 {
 	// Default behavior is a regular search for existing entries
 	dirinfo->flags = 0;
@@ -483,13 +483,23 @@ uint32_t DFS_OpenDir(PVOLINFO volinfo, uint8_t *dirname, PDIRINFO dirinfo)
 
 			de.name[0] = 0;
 
-			do {
-				result = DFS_GetNext(volinfo, dirinfo, &de);
-				// ggn: If the disk has a volume label which is the same as the name of the folder we're scanning
-				//      against, and that label existed before the folder, then this loop was going to stop at the
-				//      label, so the if immediately below this would mismatch the ATTR_DIRECTORY scan.
-				//      So we added an extra clause to keep looping if we detect ATTR_VOLUME_ID
-			} while (!result && memcmp(de.name, tmpfn, 11) || ((de.attr & ATTR_VOLUME_ID) == ATTR_VOLUME_ID));
+			if (volflag == 1)
+			{
+			  // (raj) keep previous way if searching for the volume name
+			  do {
+			    result = DFS_GetNext(volinfo, dirinfo, &de);
+				} while (!result && memcmp(de.name, tmpfn, 11));
+			}
+			else
+			{
+			  do {
+				  result = DFS_GetNext(volinfo, dirinfo, &de);
+				  // ggn: If the disk has a volume label which is the same as the name of the folder we're scanning
+				  //      against, and that label existed before the folder, then this loop was going to stop at the
+				  //      label, so the if immediately below this would mismatch the ATTR_DIRECTORY scan.
+				  //      So we added an extra clause to keep looping if we detect ATTR_VOLUME_ID
+			  } while (!result && memcmp(de.name, tmpfn, 11) || ((de.attr & ATTR_VOLUME_ID) == ATTR_VOLUME_ID));
+			}
 
 			if (!memcmp(de.name, tmpfn, 11) && ((de.attr & ATTR_DIRECTORY) == ATTR_DIRECTORY)) {
 				if (volinfo->filesystem == FAT32) {
@@ -654,7 +664,7 @@ uint32_t DFS_GetFreeDirEnt(PVOLINFO volinfo, uint8_t *path, PDIRINFO di, PDIRENT
 {
 	uint32_t tempclus,i;
 
-	if (DFS_OpenDir(volinfo, path, di))
+	if (DFS_OpenDir(volinfo, path, di, 0))
 		return DFS_NOTFOUND;
 
 	// Set "search for empty" flag so DFS_GetNext knows what we're doing
@@ -768,7 +778,7 @@ uint32_t DFS_OpenFile(PVOLINFO volinfo, uint8_t *path, uint8_t mode, uint8_t *sc
 	// At this point, if our path was MYDIR/MYDIR2/FILE.EXT, filename = "FILE    EXT" and
 	// tmppath = "MYDIR/MYDIR2".
 	di.scratch = scratch;
-	if (DFS_OpenDir(volinfo, tmppath, &di))
+	if (DFS_OpenDir(volinfo, tmppath, &di, 0))
 		return DFS_NOTFOUND;
 
 	while (!DFS_GetNext(volinfo, &di, &de)) {
@@ -1360,7 +1370,7 @@ uint32_t DFS_volumeName(PVOLINFO volinfo, uint8_t *name, uint8_t mode, uint8_t *
 	memset(&fi, 0, sizeof(FILEINFO));
 
 	di.scratch = scratch;
-	if (DFS_OpenDir(volinfo, tmppath, &di)) { return DFS_NOTFOUND; }
+	if (DFS_OpenDir(volinfo, tmppath, &di, 1)) { return DFS_NOTFOUND; }
 
 	while (!DFS_GetNext(volinfo, &di, &de))
 	{

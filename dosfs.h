@@ -224,7 +224,7 @@ uint32_t DFS_GetVolInfo(uint8_t unit, uint8_t *scratchsector, uint32_t startsect
 	considered to be the root directory.
 	Returns 0 OK, nonzero for any error.
 */
-uint32_t DFS_OpenDir(PVOLINFO volinfo, uint8_t *dirname, PDIRINFO dirinfo);
+uint32_t DFS_OpenDir(PVOLINFO volinfo, uint8_t *dirname, PDIRINFO dirinfo, uint8_t volflag);
 
 /*
 	Get next entry in opened directory structure. Copies fields into the dirent

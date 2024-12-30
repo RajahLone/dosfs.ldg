@@ -96,7 +96,7 @@ long CDECL dfs_open_dir(PVOLINFO volinfo, char *dirname, PDIRINFO dirinfo, uint8
 	
 	dirinfo->scratch = scratch_sector;
 	
-	return (int32_t)DFS_OpenDir(volinfo, (uint8_t *)dirname, dirinfo);
+	return (int32_t)DFS_OpenDir(volinfo, (uint8_t *)dirname, dirinfo, 0);
 }
 long CDECL dfs_get_next(PVOLINFO volinfo, PDIRINFO dirinfo, PDIRENT dirent)
 {
