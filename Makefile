@@ -1,7 +1,7 @@
 #
 # Makefile
 #
-CMINI = libcmini/lib
+CMINI = ../libcmini/lib
 
 CFLAGS  = -Wall -O -fomit-frame-pointer -DATARI -Wno-unused-variable -Wno-unused-value -Wno-parentheses
 LDFLAGS = -s -nostdlib $(CMINI)/crt0.o

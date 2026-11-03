@@ -12,4 +12,6 @@ Other programs can use it, please read KKcmd GFA sources (dfs_ functions) as exe
 
 - get [dosfs_r3_src.zip](https://ptonthat.fr/files/dosfs/dosfs_r3_src.zip) and unpack the contents to ./
 
+- install [libcmini/lib/](https://github.com/freemint/libcmini/releases/) a files on a location outside /opt/cross-mint/m68k-atari-mint/lib/ (ie in your workspace besides other projects) and fix $CMINI path in the Makefile.
+
 - dosfs.ldg.xcodeproj is for Xcode 16.0, you may not need it if you use something else.
