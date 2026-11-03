@@ -66,6 +66,10 @@ new: clean
 .SUFFIXES: .c .S .o
 
 .c.o:
+	mkdir -p ./build/68000
+	mkdir -p ./build/68020
+	mkdir -p ./build/ColdFire
+
 	$(CC) $(CFLAGS) -m68000 -c $*.c -o ./build/68000/$*.o
 	$(CC) $(CFLAGS) -m68020-60 -c $*.c -o ./build/68020/$*.o
 	$(CC) $(CFLAGS) -mcpu=5475 -c $*.c -o ./build/ColdFire/$*.o
